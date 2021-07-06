@@ -2,6 +2,7 @@ package com.example.CategoriesBackend.services
 
 import com.example.CategoriesBackend.Repositories.CategoriesRepository
 import com.example.CategoriesBackend.models.Category
+import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -32,46 +33,33 @@ class CategoriesService {
     /* For adding Categories */
     fun addCategory(category:Category):ResponseEntity<Category>
     {
-        var maxID =1;
-        var labortory1:Labortory? = null;
-
-        if(labortoryRepository.count()>0) {
-            labortory1 = labortoryRepository.findTopByOrderByIDDesc();
-        }
-
-        if(labortory1!=null) {
-            maxID = labortory1.ID +1;
-        }
-
-        labortory.ID = maxID;
-        labortoryRepository.save(labortory)
-        return  ResponseEntity(labortory, HttpStatus.CREATED)
-
+        category.id = ObjectId().toString();
+        this.categoryRepositroy.save(category)
+        return  ResponseEntity(category, HttpStatus.CREATED)
     }
 
     /* Delete by id */
-    fun DeleteLabortory(id:Int): ResponseEntity<String> {
-        var labortory:Optional<Labortory> = labortoryRepository.findById(id)
-        if(labortory.isPresent){
-            labortoryRepository.deleteById(id)
-            return ResponseEntity("The product with id " + id.toString()  + " deleted successfully",HttpStatus.OK)
+    fun DeleteCategory(id:String): ResponseEntity<String> {
+        var category:Optional<Category> = this.categoryRepositroy.findById(id)
+        if(category.isPresent){
+            categoryRepositroy.deleteById(id)
+            //return ResponseEntity("The category with id " + id.toString()  + " deleted successfully",HttpStatus.OK)
+            return ResponseEntity(true.toString(),HttpStatus.OK)
         }
         else{
-            return ResponseEntity("The product with id " + id.toString()  + " does not exist",HttpStatus.NOT_FOUND)
+            return ResponseEntity(false.toString(),HttpStatus.NOT_FOUND)
         }
     }
 
-    /* Updating a labortory*/
-    fun updateLabortory(id:Int, labortory: Labortory):ResponseEntity<Labortory>{
-        var _labortory:Optional<Labortory> =  labortoryRepository.findById(id);
+    /* Updating a Category*/
+    fun updateCategory(id:String, category: Category):ResponseEntity<Category>{
+        var _category:Optional<Category> =  categoryRepositroy.findById(id);
 
-        if(_labortory.isPresent) {
-            var labortory1:Labortory    =_labortory.get()
-            labortory1.name = labortory.name;
-            labortory1.address = labortory.address;
-            labortory1.phone = labortory.phone;
-            labortoryRepository.save(labortory1)
-            return ResponseEntity(labortory1,HttpStatus.OK)
+        if(_category.isPresent) {
+            var category1:Category    =_category.get()
+            category1.title = category.title;
+            categoryRepositroy.save(category1)
+            return ResponseEntity(category1,HttpStatus.OK)
         }
         else{
             return ResponseEntity.notFound().build()
