@@ -26,20 +26,20 @@ class RoutingConfigrations {
     fun myRoutes(builder: RouteLocatorBuilder): RouteLocator? {
         return builder.routes()
             .route { r ->
-                r.path("/users/**")
+                r.path("/api/users/**")
                     .uri(users)
             }
 
             .route { r ->
-                r.path("/orders/**")
+                r.path("/api/orders/**")
                     .uri(orders)
             }
             .route { r ->
-                r.path("/products/**")
+                r.path("/api/products/**")
                     .uri(products)
             }
             .route { r ->
-                r.path("/categories/**")
+                r.path("/api/categories/**")
                     .uri(categories)
             }
             .build()
