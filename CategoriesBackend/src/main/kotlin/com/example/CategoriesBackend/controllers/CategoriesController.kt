@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/categories")
+@CrossOrigin
 class CategoriesController {
     var categoryService:CategoriesService;
     @Autowired
@@ -16,31 +17,31 @@ class CategoriesController {
         this.categoryService = _categoryService;
     }
 
-    @GetMapping("/categories/list")
+    @GetMapping("/list")
     fun index(): ResponseEntity<Collection<Category>>{
         return this.categoryService.listAllCategories();
     }
 
-    @GetMapping("/categories/show/{id}")
+    @GetMapping("/show/{id}")
     fun getCategoryById(@PathVariable id:String): ResponseEntity<Optional<Category>> {
         return this.categoryService.showCategory(id);
     }
 
-    @PostMapping ("/categories/add")
+    @PostMapping ("/add")
     fun saveCategory(@RequestBody category: Category): ResponseEntity<Category> {
         return this.categoryService.addCategory(category);
     }
 
 
 
-    @DeleteMapping("/categories/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     fun delete(@PathVariable id: String): ResponseEntity<String> {
        // return labortoryService.DeleteLabortory(id)
         return this.categoryService.DeleteCategory(id);
     }
 
 
-    @PutMapping("/categories/update/{id}")
+    @PutMapping("/update/{id}")
     fun updateProduct(@PathVariable id: String, @RequestBody category:Category):ResponseEntity<Category>{
         return this.categoryService.updateCategory(id,category)
 
