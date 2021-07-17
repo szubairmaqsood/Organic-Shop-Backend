@@ -7,7 +7,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/users")
+//@CrossOrigin("*")
 class UsersController {
     var userService:UserService;
     @Autowired
@@ -15,15 +16,23 @@ class UsersController {
         this.userService = _userService;
     }
 
-    @GetMapping("/users/authenticate")
+    @GetMapping("/authenticate")
     fun authenticateUser(@RequestBody user: Users):Boolean{
         return this.userService.authenticateUser(user);
 
     }
+    //@CrossOrigin("http://localhost:8081")
+    @PostMapping("/add")
+    fun saveUser(@RequestBody user: Users): ResponseEntity<Users> {
 
-    @PostMapping("/users/add")
-    fun saveLabortiry(@RequestBody user: Users): ResponseEntity<Users> {
+        System.out.println("Hello");
+        //return ResponseEntity.ok("H");
         return userService.addUser(user);
+    }
+
+    @GetMapping("/dummy")
+    fun dummy():String{
+        return "Hello User"
     }
 
 

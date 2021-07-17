@@ -1,11 +1,11 @@
-package com.example.ProductsBackend
+package com.example.Product.Backend
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class ProductsBackendApplication
+class ProductBackendApplication
 
 fun main(args: Array<String>) {
-	runApplication<ProductsBackendApplication>(*args)
+	runApplication<ProductBackendApplication>(*args)
 }
